@@ -39,5 +39,5 @@ def fit(dataModelComplete: List[DataModelComplete]):
     prediction_model.fit(df)
     return {"message": "Modelo entrenado exitosamente",
             "R2": prediction_model.r2,
-            "RMSE": prediction_model.mse,
+            "RMSE": prediction_model.rmse,
             }
