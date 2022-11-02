@@ -14,6 +14,7 @@ from fastapi import FastAPI
 from joblib import load
 
 from DataModel import DataModel
+from PredictionModel import PredictionModel
 
 app = FastAPI()
 
@@ -23,16 +24,11 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
 @app.post("/predict")
 def make_prediction(dataModel: DataModel):
     df = pd.DataFrame(dataModel.dict(),
                       columns=dataModel.dict().keys(), index=[0])
     df.columns = dataModel.columns()
-    model = load('assets/modelo.joblib')
-    result = model.predict(df)
-    return result
+    prediction_model = PredictionModel()
+    results = prediction_model.make_prediction(df)
+    return results.tolist()
