@@ -16,6 +16,10 @@ from PredictionModel import PredictionModel
 
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_event():
+    global prediction_model
+    prediction_model = PredictionModel()
 
 @app.get("/")
 def read_root():
@@ -26,7 +30,6 @@ def read_root():
 def make_prediction(dataModel: List[DataModel]):
     df = pd.DataFrame([x.dict() for x in dataModel])
     df.columns = dataModel[0].columns()
-    prediction_model = PredictionModel()
     results = prediction_model.make_prediction(df)
     return results.tolist()
 
@@ -35,7 +38,6 @@ def make_prediction(dataModel: List[DataModel]):
 def fit(dataModelComplete: List[DataModelComplete]):
     df = pd.DataFrame([x.dict() for x in dataModelComplete])
     df.columns = dataModelComplete[0].columns()
-    prediction_model = PredictionModel()
     prediction_model.fit(df)
     return {"message": "Modelo entrenado exitosamente",
             "R2": prediction_model.r2,
