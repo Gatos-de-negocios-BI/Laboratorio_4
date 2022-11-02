@@ -36,7 +36,7 @@ def make_prediction(dataModel: List[DataModel]):
         check_university_rating(datos['university_rating'])
         check_sop(datos['sop'])
         check_lor(datos['lor'])
-        check_cpga(datos['cpga'])
+        check_cpga(datos['cgpa'])
         check_research(datos['research'])
         lista.append(datos)
     df = pd.DataFrame(lista)
